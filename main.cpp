@@ -12,19 +12,14 @@
 #include <fstream>
 #include <stdint.h>
 
-using std::cout;
-using std::cin;
-using std::ifstream;
-using std::ios;
-using std::string;
-using std::endl;
-using std::ofstream;
-using std::fstream;
+using namespace std;
+
+int duration = 300;
 
 void execCommand(int argc, char* argv[]) {
     seteuid(0);
     setuid(0);
-    std::string argv_inputs;
+    string argv_inputs;
     int i;
 
     for(i = 1; i < argc; i++) { argv_inputs.append(argv[i]).append(" ");}
@@ -32,7 +27,7 @@ void execCommand(int argc, char* argv[]) {
     system(argv_inputs.c_str());
 }
 
-bool FileExists(const std::string &s)
+bool FileExists(const string &s)
 {
   struct stat buffer;
   return (stat (s.c_str(), &buffer) == 0);
@@ -90,7 +85,7 @@ int main(int argc, char* argv[]) {
             read >> line;
             
             if(line.length() == 0) time = 0;
-            else time = std::stoi(line.data());
+            else time = stoi(line.data());
     }
     
     
@@ -110,7 +105,7 @@ int main(int argc, char* argv[]) {
         string write_file_name("/etc/bsudo");
         write.open(write_file_name, ios::out);
         if(!write) cout << "Could not write file /etc/bsudo";
-        write << std::time(0) + 300;
+        write << std::time(0) + duration;
 
     execCommand(argc, argv);
     }
