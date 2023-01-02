@@ -20,10 +20,10 @@ void execCommand(int argc, char* argv[]) {
     seteuid(0);
     setuid(0);
     setgid(0);
-    //string argv_inputs;
+    
     int i;
     char *arguments[argc];
-    //for(i = 1; i < argc; i++) { argv_inputs.append(argv[i]).append(" ");}
+    
     for(i = 0; i < argc; i++) { arguments[i] = argv[i+1];}
     
     arguments[argc] = NULL;
@@ -72,7 +72,11 @@ int CheckPassword(const char* password )
 int main(int argc, char* argv[]) {
     if(geteuid() != 0) {cout << "bSudo requires the 's' flag to be set to use privilege elevation\n"; exit(1);}
 
-    
+    if(argc == 1) {
+        cout << "usage: " << argv[0] << " command [args]\n"; 
+        return 1;
+    }
+
      int64_t time;
 
     //create file if it does not exist
@@ -95,9 +99,6 @@ int main(int argc, char* argv[]) {
             else time = stoi(line.data());
     }
     
-    
-    
-    
 	if(std::time(0) < time) execCommand(argc, argv);
     else {
     
@@ -114,6 +115,7 @@ int main(int argc, char* argv[]) {
         if(!write) cout << "Could not write file /etc/bsudo";
         write << std::time(0) + duration;
         write.close();
+
     execCommand(argc, argv);
     }
     }
