@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
         cout << "usage: " << argv[0] << " command [args]\n"; 
         return 1;
     }
-
+ 
     
 
     if(!FileExists(authFile)) createAuthFile(authFile);

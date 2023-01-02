@@ -23,7 +23,7 @@ bool FileExists(const string &s)
   struct stat buffer;
   return (stat (s.c_str(), &buffer) == 0);
 }
-
+ 
 
 string getPassword()
 {
