@@ -19,12 +19,18 @@ int duration = 300;
 void execCommand(int argc, char* argv[]) {
     seteuid(0);
     setuid(0);
-    string argv_inputs;
+    setgid(0);
+    //string argv_inputs;
     int i;
-
-    for(i = 1; i < argc; i++) { argv_inputs.append(argv[i]).append(" ");}
+    char *arguments[argc];
+    //for(i = 1; i < argc; i++) { argv_inputs.append(argv[i]).append(" ");}
+    for(i = 0; i < argc; i++) { arguments[i] = argv[i+1];}
     
-    system(argv_inputs.c_str());
+    arguments[argc] = NULL;
+    char *cmd = arguments[0];
+
+    
+    execvp(cmd, arguments);
 }
 
 bool FileExists(const string &s)
@@ -75,6 +81,7 @@ int main(int argc, char* argv[]) {
         string write_file_name("/etc/bsudo");
         create.open(write_file_name, ios::out);
         if(!create) cout << "Could not create file /etc/bsudo";
+        create.close();
     } else {
         //get file data
         ifstream read;
@@ -106,7 +113,7 @@ int main(int argc, char* argv[]) {
         write.open(write_file_name, ios::out);
         if(!write) cout << "Could not write file /etc/bsudo";
         write << std::time(0) + duration;
-
+        write.close();
     execCommand(argc, argv);
     }
     }
